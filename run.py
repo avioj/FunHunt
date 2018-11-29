@@ -19,7 +19,11 @@ def calc(req):
     if None in all_params:
         raise InvalidUsage("check you params")
     if isinstance(a, str) or isinstance(b, str):
-        raise InvalidUsage("check you params")
+        try:
+            a = int(a)
+            b = int(b)
+        except ValueError:
+            raise InvalidUsage("check you params")
     return {"result": mapper(method, a, b)}, status.HTTP_200_OK
 
 
@@ -49,4 +53,4 @@ def handle_invalid_usage(error):
 
 if __name__ == '__main__':
     app.handle_http_exception = get_http_exception_handler(app)
-    app.run(port=5000)
+    app.run(host="192.168.88.195", port=5000)
